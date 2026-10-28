@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ERASE MUSIC — Your sound. Your space.</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              accent: '#D8FF3E',
+              accentHover: '#c4eb2d',
+              darkBg: '#08090B',
+              darkSurface: '#111318',
+              darkCard: 'rgba(255, 255, 255, 0.04)',
+              lightBg: '#F4F3EF',
+              lightSurface: '#FFFFFF',
+              lightCard: 'rgba(0, 0, 0, 0.03)'
+            }
+          },
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            sans: ['Inter', 'Plus Jakarta Sans', 'sans-serif']
+          },
+          transitionTimingFunction: {
+            'cinematic': 'cubic-bezier(0.16, 1, 0.3, 1)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Theme & Glassmorphism System */
+    :root {
+      --bg-main: #08090B;
+      --bg-surface: #111318;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-hover: rgba(255, 255, 255, 0.08);
+      --text-main: #F5F5F2;
+      --text-muted: #9A9DA5;
+      --accent: #D8FF3E;
+      --accent-rgb: 216, 255, 62;
+      --shadow-glass: 0 20px 50px rgba(0, 0, 0, 0.5);
+      --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html.light {
+      --bg-main: #F4F3EF;
+      --bg-surface: #FFFFFF;
+      --glass-bg: rgba(0, 0, 0, 0.03);
+      --glass-border: rgba(0, 0, 0, 0.08);
+      --glass-hover: rgba(0, 0, 0, 0.06);
+      --text-main: #101114;
+      --text-muted: #686B72;
+      --accent: #4F46E5;
+      --accent-rgb: 79, 70, 229;
+      --shadow-glass: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Global Transitions for Theme Toggle */
+    body, div, nav, header, aside, section, main, footer, input, button, select {
+      transition: background-color 0.8s var(--ease-cinematic), 
+                  border-color 0.8s var(--ease-cinematic), 
+                  color 0.5s var(--ease-cinematic),
+                  box-shadow 0.8s var(--ease-cinematic);
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Cairo', 'Inter', sans-serif;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Glass Effect Utilities */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-glass);
+    }
+
+    .glass-button {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s var(--ease-cinematic);
+    }
+
+    .glass-button:hover {
+      background: var(--glass-hover);
+      transform: translateY(-2px);
+      border-color: rgba(var(--accent-rgb), 0.4);
+    }
+
+    .glass-button:active {
+      transform: translateY(0) scale(0.97);
+    }
+
+    /* Drag & Drop Highlight */
+    .drop-active {
+      border-color: var(--accent) !important;
+      background: rgba(var(--accent-rgb), 0.1) !important;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--glass-border);
+      border-radius: 99px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+
+    /* Custom Slider Range */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: transparent;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      height: 4px;
+      border-radius: 99px;
+      background: var(--glass-border);
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: -5px;
+      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    input[type=range]:hover::-webkit-slider-thumb {
+      transform: scale(1.25);
+    }
+
+    /* Page View Transitions */
+    .page-view {
+      opacity: 0;
+      transform: translateY(12px) scale(0.99);
+      transition: opacity 0.4s var(--ease-cinematic), transform 0.4s var(--ease-cinematic);
+      display: none;
+    }
+    .page-view.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Ambient Glow Animation */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.25; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(1.08); }
+    }
+    .ambient-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      animation: pulseGlow 8s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    /* Splash Screen Loader Animation */
+    #splash-screen {
+      transition: opacity 0.7s var(--ease-cinematic), visibility 0.7s;
+    }
+    #splash-screen.hidden-splash {
+      opacity: 0;
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col antialiased selection:bg-lime-400 selection:text-black">
+
+  <!-- Splash Screen -->
+  <div id="splash-screen" class="fixed inset-0 z-[100] bg-[#08090B] flex flex-col items-center justify-center text-white">
+    <div class="relative flex flex-col items-center">
+      <div class="w-16 h-16 mb-6 rounded-2xl bg-gradient-to-tr from-[#D8FF3E] to-emerald-400 p-[2px] shadow-2xl shadow-[#D8FF3E]/20 animate-bounce">
+        <div class="w-full h-full bg-[#08090B] rounded-[14px] flex items-center justify-center">
+          <svg class="w-8 h-8 text-[#D8FF3E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12 0c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+          </svg>
+        </div>
+      </div>
+      <h1 class="text-3xl font-extrabold tracking-wider text-white font-sans">ERASE<span class="text-[#D8FF3E]">.</span>MUSIC</h1>
+      <p class="text-xs text-neutral-400 mt-2 font-cairo tracking-widest uppercase">Your sound. Your space.</p>
+      <div class="w-32 h-1 bg-neutral-800 rounded-full mt-8 overflow-hidden">
+        <div class="w-full h-full bg-[#D8FF3E] animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ambient Dynamic Background Blobs -->
+  <div class="ambient-blob w-[500px] h-[500px] -top-32 -right-32 bg-[#D8FF3E]/10"></div>
+  <div class="ambient-blob w-[600px] h-[600px] bottom-0 -left-40 bg-indigo-600/10" style="animation-delay: -4s;"></div>
+
+  <!-- Main Container Layout -->
+  <div class="relative z-10 flex flex-1 h-full w-full overflow-hidden">
+    
+    <!-- DESKTOP SIDEBAR -->
+    <aside class="hidden md:flex flex-col w-64 lg:w-72 h-full glass-panel border-r-0 border-l border-white/5 p-5 justify-between shrink-0 select-none">
+      <div class="space-y-6">
+        <!-- Logo -->
+        <div class="flex items-center gap-3 px-2 cursor-pointer" onclick="navigateTo('home')">
+          <div class="w-10 h-10 rounded-xl bg-[#D8FF3E] flex items-center justify-center text-black font-black text-xl shadow-lg shadow-[#D8FF3E]/20">
+            ⚡
+          </div>
+          <div>
+            <h1 class="font-extrabold text-lg tracking-wider font-sans leading-none">ERASE</h1>
+            <span class="text-[10px] text-neutral-400 font-medium tracking-widest uppercase">MUSIC PLATFORM</span>
+          </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="space-y-1.5">
+          <button onclick="navigateTo('home')" id="nav-home" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-semibold text-neutral-300 hover:text-white hover:bg-white/5 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 00-1 1m-6 0h6"/></svg>
+            <span>الرئيسية</span>
+          </button>
+          
+          <button onclick="navigateTo('search')" id="nav-search" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-semibold text-neutral-300 hover:text-white hover:bg-white/5 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <span>البحث</span>
+          </button>
+
+          <button onclick="navigateTo('sections')" id="nav-sections" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-semibold text-neutral-300 hover:text-white hover:bg-white/5 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            <span>الأقسام</span>
+          </button>
+          
+          <button onclick="navigateTo('library')" id="nav-library" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-semibold text-neutral-300 hover:text-white hover:bg-white/5 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            <span>المكتبة الموسيقية</span>
+          </button>
+          
+          <button onclick="navigateTo('favorites')" id="nav-favorites" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-semibold text-neutral-300 hover:text-white hover:bg-white/5 transition">
+            <svg class="w-5 h-5 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>المفضلة</span>
+          </button>
+
+          <button onclick="navigateTo('settings')" id="nav-settings" class="nav-btn w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-semibold text-neutral-300 hover:text-white hover:bg-white/5 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>الإعدادات</span>
+          </button>
+        </nav>
+
+        <!-- Quick Sections Quick List -->
+        <div class="pt-4 border-t border-white/10">
+          <div class="flex items-center justify-between px-2 mb-3">
+            <span class="text-xs font-bold text-neutral-400 tracking-wider">الأقسام الخاصة</span>
+            <button onclick="openModal('create-section-modal')" class="text-xs text-[#D8FF3E] hover:underline font-bold">+ جديد</button>
+          </div>
+          <div id="sidebar-sections-list" class="space-y-1 max-h-48 overflow-y-auto pr-1">
+            <!-- Dynamic Sections Inserted Here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action: Upload Song -->
+      <div class="p-3 glass-panel rounded-2xl">
+        <p class="text-xs text-neutral-300 font-medium mb-2">رفع أغنية للمكتبة الموسيقية</p>
+        <button onclick="openUploadModal()" class="w-full glass-button py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 text-white bg-[#D8FF3E]/10 border-[#D8FF3E]/30">
+          <svg class="w-4 h-4 text-[#D8FF3E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+          + رفع أغنية جديدة
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN VIEW AREA -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+      
+      <!-- Top Mobile / Global Header -->
+      <header class="w-full glass-panel border-b border-white/5 py-3.5 px-6 flex items-center justify-between z-20 shrink-0">
+        <!-- Search Quick Bar / Mobile Branding -->
+        <div class="flex items-center gap-4 flex-1 max-w-md">
+          <div class="md:hidden flex items-center gap-2" onclick="navigateTo('home')">
+            <div class="w-8 h-8 rounded-lg bg-[#D8FF3E] flex items-center justify-center text-black font-extrabold text-sm">⚡</div>
+            <span class="font-bold text-base tracking-wider">ERASE</span>
+          </div>
+
+          <!-- Fast Global Search Trigger -->
+          <div class="relative w-full hidden sm:block">
+            <input type="text" id="global-search-input" oninput="handleGlobalSearch(this.value)" placeholder="ابحث عن أغنية، فنان، أو قسم..." class="w-full bg-white/5 border border-white/10 rounded-full py-2 pr-10 pl-4 text-xs focus:outline-none focus:border-[#D8FF3E] transition">
+            <svg class="w-4 h-4 text-neutral-400 absolute right-3.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+        </div>
+
+        <!-- Right Header Tools -->
+        <div class="flex items-center gap-1.5 sm:gap-3">
+          <!-- Upload Song Button -->
+          <button onclick="openUploadModal()" title="رفع أغنية" class="glass-button py-1.5 sm:py-2 px-2.5 sm:px-4 rounded-full text-[11px] sm:text-xs font-bold text-black bg-[#D8FF3E] border-none shadow-lg flex items-center gap-1 hover:scale-105 active:scale-95 transition shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <span class="hidden sm:inline">رفع أغنية</span>
+          </button>
+
+          <!-- Create Section Button -->
+          <button onclick="openModal('create-section-modal')" title="إنشاء قسم" class="glass-button py-1.5 sm:py-2 px-2.5 sm:px-4 rounded-full text-[11px] sm:text-xs font-bold text-white flex items-center gap-1 bg-[#D8FF3E]/10 border-[#D8FF3E]/30 shrink-0">
+            <svg class="w-3.5 h-3.5 text-[#D8FF3E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <span class="hidden sm:inline">+ قسم جديد</span>
+            <span class="sm:hidden text-[#D8FF3E]">قسم</span>
+          </button>
+
+          <!-- Settings Button (Header Quick Access) -->
+          <button onclick="navigateTo('settings')" title="الإعدادات" class="p-2 sm:p-2.5 rounded-full glass-button text-neutral-200 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </button>
+
+          <!-- Theme Toggle Button -->
+          <button onclick="toggleTheme()" title="تغيير الثيم" class="p-2 sm:p-2.5 rounded-full glass-button text-neutral-200 shrink-0">
+            <svg id="theme-icon-sun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <svg id="theme-icon-moon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- SCROLLABLE PAGE CONTAINER -->
+      <div id="pages-wrapper" class="flex-1 overflow-y-auto p-4 sm:p-8 pb-36 md:pb-28">
+        
+        <!-- 1. HOME VIEW -->
+        <section id="view-home" class="page-view active space-y-8">
+          <!-- Hero Banner -->
+          <div class="relative w-full rounded-3xl overflow-hidden glass-panel p-6 sm:p-10 border border-white/10 min-h-[220px] flex flex-col justify-end bg-gradient-to-r from-emerald-950/60 via-slate-900/80 to-black">
+            <div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1200&auto=format&fit=crop');"></div>
+            <div class="relative z-10 max-w-xl space-y-2">
+              <span class="inline-block px-3 py-1 rounded-full bg-[#D8FF3E] text-black font-extrabold text-[10px] uppercase tracking-wider">Premium Experience</span>
+              <h2 class="text-2xl sm:text-4xl font-extrabold text-white font-cairo leading-tight">مرحباً بك في ERASE MUSIC</h2>
+              <p class="text-xs sm:text-sm text-neutral-300 font-normal">تجربة موسيقية سينمائية فائقة النقاء. أضف أغانيك الخاصة، أنشئ أقسامك، واستمتع بعالمك الموسيقي.</p>
+              <div class="pt-2 flex items-center gap-3">
+                <button onclick="playDemoQueue()" class="bg-[#D8FF3E] text-black font-bold text-xs py-3 px-6 rounded-full shadow-lg shadow-[#D8FF3E]/20 hover:scale-105 active:scale-95 transition flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  تشغيل الكل الآن
+                </button>
+                <button onclick="openUploadModal()" class="glass-button text-white font-bold text-xs py-3 px-6 rounded-full flex items-center gap-2 border-white/20">
+                  <svg class="w-4 h-4 text-[#D8FF3E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                  رفع أغنية جديدة
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Your Sections (Dynamic User Sections) -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-xl font-bold font-cairo">الأقسام الخاصة بك</h3>
+                <p class="text-xs text-neutral-400">أقسامك المصممة بالخلفيات والأجواء المفضلة لديك</p>
+              </div>
+              <button onclick="openModal('create-section-modal')" class="text-xs font-bold text-[#D8FF3E] hover:underline">+ قسم جديد</button>
+            </div>
+            <div id="home-sections-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              <!-- Dynamic Sections Rendered Here -->
+            </div>
+          </div>
+
+          <!-- Section: Trending Songs Grid -->
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-bold font-cairo">الأكثر استماعاً الآن</h3>
+              <button onclick="navigateTo('library')" class="text-xs font-semibold text-neutral-400 hover:text-white">عرض الكل ←</button>
+            </div>
+            <div id="home-trending-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <!-- Songs Cards List -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. SEARCH VIEW -->
+        <section id="view-search" class="page-view space-y-6">
+          <div class="space-y-2">
+            <h2 class="text-2xl font-bold font-cairo">البحث الموسيقي</h2>
+            <p class="text-xs text-neutral-400">ابحث عن الأغاني، الفنانين، والأقسام بكل سهولة</p>
+          </div>
+          
+          <div class="relative w-full">
+            <input type="text" id="search-page-input" oninput="handleGlobalSearch(this.value)" placeholder="اكتب اسم الأغنية أو الفنان..." class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pr-12 pl-4 text-sm focus:outline-none focus:border-[#D8FF3E] transition glass-panel">
+            <svg class="w-5 h-5 text-neutral-400 absolute right-4 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+
+          <!-- Search Filter Tabs -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-2" id="search-filter-chips">
+            <button onclick="filterSearch('all')" class="chip-btn active px-4 py-2 rounded-full text-xs font-bold glass-button bg-[#D8FF3E] text-black">الكل</button>
+            <button onclick="filterSearch('songs')" class="chip-btn px-4 py-2 rounded-full text-xs font-bold glass-button text-neutral-300">الأغاني</button>
+            <button onclick="filterSearch('sections')" class="chip-btn px-4 py-2 rounded-full text-xs font-bold glass-button text-neutral-300">الأقسام</button>
+          </div>
+
+          <!-- Search Results Grid -->
+          <div id="search-results-container" class="space-y-3">
+            <!-- Results Rendered Dynamically -->
+          </div>
+        </section>
+
+        <!-- 3. LIBRARY VIEW -->
+        <section id="view-library" class="page-view space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-2xl font-bold font-cairo">المكتبة الموسيقية</h2>
+              <p class="text-xs text-neutral-400">جميع ملفاتك وأقسامك المفضلة في مكان واحد</p>
+            </div>
+            <button onclick="openUploadModal()" class="glass-button text-xs font-bold py-2.5 px-5 rounded-full text-black bg-[#D8FF3E] border-none flex items-center gap-2 shadow-lg hover:scale-105 transition">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>+ رفع أغنية جديدة</span>
+            </button>
+          </div>
+
+          <!-- Track List Container -->
+          <div class="glass-panel rounded-2xl p-4">
+            <h3 class="text-sm font-bold text-neutral-400 mb-4 px-2">جميع المسارات الصوتية</h3>
+            <div id="library-songs-list" class="space-y-2">
+              <!-- Song list items -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. FAVORITES VIEW -->
+        <section id="view-favorites" class="page-view space-y-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-500">
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              </div>
+              <div>
+                <h2 class="text-2xl font-bold font-cairo">أغانيّ المفضلة</h2>
+                <p id="fav-count-text" class="text-xs text-neutral-400">0 أغنية مفضلة</p>
+              </div>
+            </div>
+            <button onclick="playFavoritesQueue()" class="bg-[#D8FF3E] text-black font-bold text-xs py-2.5 px-5 rounded-full flex items-center gap-2">
+              تشغيل الكل
+            </button>
+          </div>
+
+          <div id="favorites-list" class="glass-panel rounded-2xl p-4 space-y-2">
+            <!-- Favorites Rendered Here -->
+          </div>
+        </section>
+
+        <!-- 5. DEDICATED SECTIONS HUB VIEW -->
+        <section id="view-sections" class="page-view space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-2xl font-bold font-cairo">الأقسام الموسيقية</h2>
+              <p class="text-xs text-neutral-400">استعرض وادارة جميع الأقسام المخصصة بأجوائها الفريدة</p>
+            </div>
+            <button onclick="openModal('create-section-modal')" class="glass-button text-xs font-bold py-2.5 px-5 rounded-full text-black bg-[#D8FF3E] border-none flex items-center gap-2 shadow-lg hover:scale-105 transition">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>+ إنشاء قسم جديد</span>
+            </button>
+          </div>
+
+          <div id="all-sections-page-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <!-- Dynamic Sections Rendered Here -->
+          </div>
+        </section>
+
+        <!-- 6. SETTINGS VIEW -->
+        <section id="view-settings" class="page-view space-y-6 max-w-2xl">
+          <div class="space-y-1">
+            <h2 class="text-2xl font-bold font-cairo">الإعدادات والتخصيص</h2>
+            <p class="text-xs text-neutral-400">تخصيص المظهر وتجربة الاستماع والبيانات المحلية</p>
+          </div>
+
+          <div class="glass-panel rounded-2xl p-6 space-y-6">
+            <!-- Theme Control -->
+            <div class="flex items-center justify-between pb-4 border-b border-white/5">
+              <div>
+                <h4 class="text-sm font-bold">المظهر والنمط</h4>
+                <p class="text-xs text-neutral-400">التبديل بين الوضع الداكن والوضع الفاتح السينمائي</p>
+              </div>
+              <button onclick="toggleTheme()" class="glass-button px-4 py-2 rounded-xl text-xs font-bold text-[#D8FF3E]">
+                تبديل الثيم 🌙 / ☀️
+              </button>
+            </div>
+
+            <!-- Audio Settings -->
+            <div class="flex items-center justify-between pb-4 border-b border-white/5">
+              <div>
+                <h4 class="text-sm font-bold">المحاكي الصوتي Synth Engine</h4>
+                <p class="text-xs text-neutral-400">توليد نغمات موسيقية سينمائية تفاعلية تلقائياً (Web Audio API)</p>
+              </div>
+              <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">مفعل</span>
+            </div>
+
+            <!-- Clear Local Storage Data -->
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="text-sm font-bold text-rose-400">إعادة ضبط البيانات المحلية</h4>
+                <p class="text-xs text-neutral-400">مسح الأقسام والأغاني المضافة واستعادة الحالة الافتراضية</p>
+              </div>
+              <button onclick="resetAppData()" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 px-4 py-2 rounded-xl text-xs font-bold transition">
+                مسح البيانات
+              </button>
+            </div>
+          </div>
+
+          <!-- App Credits Info -->
+          <div class="p-4 rounded-2xl bg-white/5 text-center text-xs text-neutral-400 space-y-1">
+            <p class="font-bold text-white">ERASE MUSIC v2.6 Premium</p>
+            <p>Your sound. Your space. Designed for Awwwards experience standard.</p>
+          </div>
+        </section>
+
+        <!-- 6. DYNAMIC SECTION VIEW -->
+        <section id="view-section-detail" class="page-view space-y-6">
+          <!-- Section Cinematic Cover Header -->
+          <div id="section-header-banner" class="relative w-full rounded-3xl overflow-hidden glass-panel p-6 sm:p-10 border border-white/10 min-h-[260px] flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
+            <div id="section-bg-layer" class="absolute inset-0 bg-cover bg-center filter blur-md opacity-40"></div>
+            <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-end gap-6">
+              <img id="section-cover-img" src="" alt="Section Cover" class="w-32 h-32 rounded-2xl object-cover shadow-2xl border border-white/20 shrink-0">
+              <div class="space-y-2 flex-1">
+                <span class="text-xs font-bold text-[#D8FF3E] uppercase tracking-wider">قسم خاص</span>
+                <h2 id="section-title-text" class="text-3xl sm:text-5xl font-black font-cairo text-white">--</h2>
+                <p id="section-desc-text" class="text-xs sm:text-sm text-neutral-300 max-w-xl">--</p>
+                <div class="pt-3 flex items-center flex-wrap gap-3">
+                  <button id="btn-play-section" class="bg-[#D8FF3E] text-black font-bold text-xs py-3 px-6 rounded-full shadow-xl flex items-center gap-2 hover:scale-105 transition">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    تشغيل القسم
+                  </button>
+                  <button id="btn-add-song-section" onclick="openUploadModal(state.activeSectionId)" class="glass-button text-white text-xs font-bold py-3 px-5 rounded-full flex items-center gap-2 bg-white/10">
+                    <svg class="w-4 h-4 text-[#D8FF3E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    إضافة أغنية لهذا القسم
+                  </button>
+                  <button onclick="deleteCurrentSection()" class="glass-button text-rose-400 text-xs font-bold py-3 px-4 rounded-full">
+                    حذف القسم
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Songs in section -->
+          <div class="glass-panel rounded-2xl p-4 space-y-2">
+            <h3 class="text-sm font-bold text-neutral-400 px-2 mb-2">المسارات داخل هذا القسم</h3>
+            <div id="section-songs-list" class="space-y-2">
+              <!-- Songs Rendered Here -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- STICKY BOTTOM MUSIC PLAYER BAR -->
+  <footer class="fixed bottom-14 md:bottom-0 left-0 right-0 z-40 glass-panel border-t border-white/10 py-2.5 px-4 sm:px-6 flex items-center justify-between select-none">
+    
+    <!-- Song Details & Thumbnail -->
+    <div class="flex items-center gap-3 min-w-0 w-1/4 cursor-pointer" onclick="openFullscreenPlayer()">
+      <div class="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 group">
+        <img id="player-thumb" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=300" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+        </div>
+      </div>
+      <div class="min-w-0">
+        <h4 id="player-title" class="text-xs sm:text-sm font-bold text-white truncate">اختر أغنية للبدء</h4>
+        <p id="player-artist" class="text-[11px] text-neutral-400 truncate">ERASE Audio Platform</p>
+      </div>
+    </div>
+
+    <!-- Center Controls & Progress -->
+    <div class="flex flex-col items-center gap-1.5 w-2/4 max-w-xl">
+      <div class="flex items-center gap-4 sm:gap-6">
+        <!-- Shuffle Button -->
+        <button id="btn-shuffle" onclick="toggleShuffle()" class="text-neutral-400 hover:text-white transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h2m8 0h2a2 2 0 012 2v8a2 2 0 01-2 2h-2m-8 0l-4-4m4 4l-4 4m8-16l4 4m-4-4l4-4"/></svg>
+        </button>
+        <!-- Prev Button -->
+        <button onclick="playPrevSong()" class="text-neutral-300 hover:text-white transition">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <!-- Play / Pause Button -->
+        <button id="btn-play-pause" onclick="togglePlayPause()" class="w-10 h-10 rounded-full bg-[#D8FF3E] text-black flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition">
+          <svg id="icon-play" class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="icon-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <!-- Next Button -->
+        <button onclick="playNextSong()" class="text-neutral-300 hover:text-white transition">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+        <!-- Favorite Button -->
+        <button id="btn-player-fav" onclick="toggleFavoriteCurrent()" class="text-neutral-400 hover:text-rose-500 transition">
+          <svg id="icon-player-heart" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        </button>
+      </div>
+
+      <!-- Time Progress Slider -->
+      <div class="w-full flex items-center gap-2 text-[10px] text-neutral-400">
+        <span id="time-current">0:00</span>
+        <input type="range" id="seek-bar" min="0" max="100" value="0" oninput="handleSeek(this.value)" class="w-full h-1">
+        <span id="time-duration">0:00</span>
+      </div>
+    </div>
+
+    <!-- Volume & Tools -->
+    <div class="hidden sm:flex items-center justify-end gap-3 w-1/4">
+      <button onclick="toggleMute()" id="btn-mute" class="text-neutral-400 hover:text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z"/></svg>
+      </button>
+      <input type="range" id="volume-bar" min="0" max="1" step="0.05" value="0.8" oninput="setVolume(this.value)" class="w-20 h-1">
+      <button onclick="openFullscreenPlayer()" title="شاشة كاملة السينمائية" class="text-neutral-400 hover:text-[#D8FF3E] transition ml-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 glass-panel border-t border-white/10 px-2 py-2 flex items-center justify-around text-neutral-400">
+    <button onclick="navigateTo('home')" id="mob-home" class="mob-btn flex flex-col items-center gap-1 text-[10px] font-bold">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 00-1 1m-6 0h6"/></svg>
+      الرئيسية
+    </button>
+    <button onclick="navigateTo('search')" id="mob-search" class="mob-btn flex flex-col items-center gap-1 text-[10px] font-bold">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      البحث
+    </button>
+    <button onclick="navigateTo('sections')" id="mob-sections" class="mob-btn flex flex-col items-center gap-1 text-[10px] font-bold">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+      الأقسام
+    </button>
+    <button onclick="navigateTo('library')" id="mob-library" class="mob-btn flex flex-col items-center gap-1 text-[10px] font-bold">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+      المكتبة
+    </button>
+    <button onclick="navigateTo('favorites')" id="mob-favorites" class="mob-btn flex flex-col items-center gap-1 text-[10px] font-bold">
+      <svg class="w-5 h-5 text-rose-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      المفضلة
+    </button>
+    <button onclick="navigateTo('settings')" id="mob-settings" class="mob-btn flex flex-col items-center gap-1 text-[10px] font-bold">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      الإعدادات
+    </button>
+  </nav>
+
+  <!-- FULLSCREEN CINEMATIC PLAYER MODAL -->
+  <div id="fullscreen-player-modal" class="fixed inset-0 z-[80] bg-[#08090B] flex flex-col justify-between p-6 sm:p-10 transition-all duration-700 opacity-0 pointer-events-none translate-y-full">
+    <!-- Blurred Dynamic Artwork Background -->
+    <div id="fs-bg-artwork" class="absolute inset-0 bg-cover bg-center filter blur-3xl opacity-30 scale-125"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#08090B] via-[#08090B]/70 to-transparent"></div>
+
+    <!-- Canvas Visualizer Background Layer -->
+    <canvas id="visualizer-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-40"></canvas>
+
+    <!-- Header Controls -->
+    <div class="relative z-10 flex items-center justify-between">
+      <button onclick="closeFullscreenPlayer()" class="p-3 rounded-full glass-button text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="text-center">
+        <span class="text-[10px] font-bold text-[#D8FF3E] tracking-widest uppercase">Playing From Section</span>
+        <h5 id="fs-section-name" class="text-xs font-bold text-neutral-300">ERASE Premium Sound</h5>
+      </div>
+      <button onclick="toggleFavoriteCurrent()" class="p-3 rounded-full glass-button text-rose-500">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </button>
+    </div>
+
+    <!-- Center Cinematic Artwork & Title -->
+    <div class="relative z-10 flex flex-col items-center justify-center my-auto space-y-8">
+      <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-3xl overflow-hidden shadow-2xl border border-white/20 relative group">
+        <img id="fs-cover-img" src="" class="w-full h-full object-cover">
+      </div>
+      <div class="text-center space-y-2 max-w-md">
+        <h2 id="fs-song-title" class="text-2xl sm:text-4xl font-black font-cairo text-white">--</h2>
+        <p id="fs-song-artist" class="text-sm font-semibold text-neutral-400">--</p>
+      </div>
+    </div>
+
+    <!-- Bottom Controls & Time Seek -->
+    <div class="relative z-10 max-w-2xl mx-auto w-full space-y-6">
+      <div class="space-y-2">
+        <input type="range" id="fs-seek-bar" min="0" max="100" value="0" oninput="handleSeek(this.value)" class="w-full h-1.5">
+        <div class="flex justify-between text-xs text-neutral-400 font-semibold">
+          <span id="fs-time-current">0:00</span>
+          <span id="fs-time-duration">0:00</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-8">
+        <button onclick="toggleShuffle()" class="text-neutral-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h2m8 0h2a2 2 0 012 2v8a2 2 0 01-2 2h-2m-8 0l-4-4m4 4l-4 4m8-16l4 4m-4-4l4-4"/></svg>
+        </button>
+        <button onclick="playPrevSong()" class="text-white hover:scale-110 transition">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <button id="fs-btn-play" onclick="togglePlayPause()" class="w-16 h-16 rounded-full bg-[#D8FF3E] text-black flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition">
+          <svg id="fs-icon-play" class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="fs-icon-pause" class="w-8 h-8 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button onclick="playNextSong()" class="text-white hover:scale-110 transition">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+        <button onclick="closeFullscreenPlayer()" class="text-neutral-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE SECTION -->
+  <div id="create-section-modal" class="fixed inset-0 z-[90] bg-black/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none">
+    <div class="glass-panel w-full max-w-lg rounded-3xl p-6 sm:p-8 space-y-6 border border-white/10 relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-bold font-cairo text-white">+ إنشاء قسم جديد</h3>
+        <button onclick="closeModal('create-section-modal')" class="text-neutral-400 hover:text-white text-lg">✕</button>
+      </div>
+
+      <form id="create-section-form" onsubmit="handleCreateSection(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-neutral-300 mb-1.5">اسم القسم (مثال: ليالي بغداد)</label>
+          <input type="text" id="sec-name-input" required placeholder="ادخل اسم القسم..." class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white focus:outline-none focus:border-[#D8FF3E]">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-neutral-300 mb-1.5">وصف القسم (اختياري)</label>
+          <input type="text" id="sec-desc-input" placeholder="ادخل وصفاً قصيراً..." class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white focus:outline-none focus:border-[#D8FF3E]">
+        </div>
+
+        <!-- Drag & Drop Cover Image -->
+        <div>
+          <label class="block text-xs font-bold text-neutral-300 mb-1.5">صورة غلاف القسم</label>
+          <div id="cover-drop-zone" onclick="document.getElementById('sec-cover-file').click()" class="border-2 border-dashed border-white/20 rounded-2xl p-4 text-center cursor-pointer hover:border-[#D8FF3E] transition bg-white/5">
+            <span id="cover-drop-text" class="text-xs text-neutral-400">انقر هنا أو اسحب صورة الغلاف</span>
+            <input type="file" id="sec-cover-file" accept="image/*" class="hidden" onchange="previewImage(this, 'cover-preview', 'cover-drop-text')">
+            <img id="cover-preview" class="w-20 h-20 object-cover rounded-xl mx-auto mt-2 hidden">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" onclick="closeModal('create-section-modal')" class="glass-button px-5 py-2.5 rounded-xl text-xs font-bold text-neutral-300">إلغاء</button>
+          <button type="submit" class="bg-[#D8FF3E] text-black font-bold text-xs py-2.5 px-6 rounded-xl shadow-lg">حفظ القسم</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADVANCED MODAL: UPLOAD SONG SYSTEM -->
+  <div id="upload-song-modal" class="fixed inset-0 z-[90] bg-black/70 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none">
+    <div class="glass-panel w-full max-w-xl rounded-3xl p-6 sm:p-8 space-y-6 border border-white/10 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#D8FF3E]/20 text-[#D8FF3E] flex items-center justify-center text-lg font-bold">
+            🎵
+          </div>
+          <div>
+            <h3 class="text-lg font-bold font-cairo text-white">رفع أغنية جديدة (Song Upload)</h3>
+            <p class="text-[11px] text-neutral-400">أضف ملفاتك الصوتية إلى منصتك الموسيقية</p>
+          </div>
+        </div>
+        <button onclick="closeModal('upload-song-modal')" class="text-neutral-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <form id="upload-song-form" onsubmit="handleUploadSong(event)" class="space-y-4">
+        <!-- Audio File Drag & Drop Dropzone -->
+        <div>
+          <label class="block text-xs font-bold text-neutral-300 mb-1.5">الملف الصوتي (.mp3, .wav, .ogg, .m4a)</label>
+          <div id="audio-drop-zone" 
+               onclick="document.getElementById('song-file-input').click()" 
+               ondragover="handleDragOver(event)"
+               ondragleave="handleDragLeave(event)"
+               ondrop="handleAudioDrop(event)"
+               class="border-2 border-dashed border-white/20 rounded-2xl p-6 text-center cursor-pointer hover:border-[#D8FF3E] transition bg-white/5 space-y-2">
+            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto text-2xl text-[#D8FF3E]">
+              🎧
+            </div>
+            <p id="audio-file-text" class="text-xs text-neutral-300 font-bold">اسحب وسجل ملف الصوت هنا أو اضغط للاختيار</p>
+            <p class="text-[10px] text-neutral-400">يدعم صيغ MP3, WAV, OGG, M4A حتى 50MB</p>
+            <input type="file" id="song-file-input" accept="audio/*" class="hidden" onchange="onAudioInputChanged(this)">
+          </div>
+        </div>
+
+        <!-- Audio Player Live Preview inside Modal -->
+        <div id="modal-audio-preview-container" class="hidden p-3 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+          <div class="flex items-center justify-between text-xs font-bold text-neutral-300">
+            <span>🔊 معاينة الملف الصوتي:</span>
+            <span id="preview-audio-duration" class="text-[#D8FF3E]">0:00</span>
+          </div>
+          <audio id="modal-audio-preview" controls class="w-full h-8 rounded-lg outline-none"></audio>
+        </div>
+
+        <!-- Song Metadata Fields -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-neutral-300 mb-1.5">اسم الأغنية *</label>
+            <input type="text" id="song-title-input" required placeholder="اسم الأغنية..." class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white focus:outline-none focus:border-[#D8FF3E]">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-neutral-300 mb-1.5">اسم الفنان / المؤدي *</label>
+            <input type="text" id="song-artist-input" required placeholder="اسم الفنان..." class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white focus:outline-none focus:border-[#D8FF3E]">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-neutral-300 mb-1.5">الألبوم (اختياري)</label>
+            <input type="text" id="song-album-input" placeholder="اسم الألبوم..." class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white focus:outline-none focus:border-[#D8FF3E]">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-neutral-300 mb-1.5">القسم التابع له الأغنية</label>
+            <select id="song-section-select" class="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs text-white focus:outline-none focus:border-[#D8FF3E]">
+              <option value="general" class="bg-neutral-900">عام (بدون قسم)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Song Artwork Cover Image Dropzone -->
+        <div>
+          <label class="block text-xs font-bold text-neutral-300 mb-1.5">صورة غلاف الأغنية (اختياري)</label>
+          <div onclick="document.getElementById('song-cover-file').click()" class="border-2 border-dashed border-white/20 rounded-2xl p-4 text-center cursor-pointer hover:border-[#D8FF3E] transition bg-white/5 flex items-center justify-center gap-4">
+            <span id="song-cover-text" class="text-xs text-neutral-400">اختر صورة كغلاف للأغنية</span>
+            <input type="file" id="song-cover-file" accept="image/*" class="hidden" onchange="previewSongCover(this)">
+            <img id="song-cover-preview" class="w-12 h-12 object-cover rounded-xl hidden">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+          <button type="button" onclick="closeModal('upload-song-modal')" class="glass-button px-5 py-2.5 rounded-xl text-xs font-bold text-neutral-300">إلغاء</button>
+          <button type="submit" class="bg-[#D8FF3E] text-black font-bold text-xs py-2.5 px-6 rounded-xl shadow-lg hover:scale-105 transition">
+            ✓ حفظ ورفع الأغنية
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed top-6 left-1/2 -translate-x-1/2 z-[110] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- AUDIO ENGINE & WEB AUDIO SYNTHESIZER SCRIPT -->
+  <script>
+    /* ==========================================================================
+       1. APP STATE & LOCAL STORAGE INITIALIZATION
+       ========================================================================== */
+    const DEFAULT_SECTIONS = [
+      {
+        id: 'sec-1',
+        name: 'ليالي بغداد',
+        desc: 'أجواء شرقية أصيلة وموسيقى هادئة من قلب العاصمة',
+        cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop',
+        bg: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop'
+      },
+      {
+        id: 'sec-2',
+        name: 'Night Drive Synth',
+        desc: 'أنغام سينمائية إلكترونية للقيادة الليلية الاسترخائية',
+        cover: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=600&auto=format&fit=crop',
+        bg: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1200&auto=format&fit=crop'
+      }
+    ];
+
+    const DEFAULT_SONGS = [
+      {
+        id: 'song-1',
+        title: 'أنوار دجلة',
+        artist: 'بغداد نايتس',
+        album: 'ليالي دجلة',
+        sectionId: 'sec-1',
+        cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=400',
+        synthFreq: 261.63, // C4
+        synthScale: 'bayati',
+        duration: 184
+      },
+      {
+        id: 'song-2',
+        title: 'همس النخيل',
+        artist: 'أصداء عربية',
+        album: 'أنغام الشرق',
+        sectionId: 'sec-1',
+        cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=400',
+        synthFreq: 293.66, // D4
+        synthScale: 'bayati',
+        duration: 210
+      },
+      {
+        id: 'song-3',
+        title: 'Neon Horizon',
+        artist: 'Luma Echo',
+        album: 'Cyber Waves',
+        sectionId: 'sec-2',
+        cover: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=400',
+        synthFreq: 329.63, // E4
+        synthScale: 'synthwave',
+        duration: 195
+      },
+      {
+        id: 'song-4',
+        title: 'Midnight Highway',
+        artist: 'Night Drive',
+        album: 'After Midnight',
+        sectionId: 'sec-2',
+        cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=400',
+        synthFreq: 220.00, // A3
+        synthScale: 'chill',
+        duration: 160
+      }
+    ];
+
+    let state = {
+      sections: JSON.parse(localStorage.getItem('erase_sections')) || DEFAULT_SECTIONS,
+      songs: JSON.parse(localStorage.getItem('erase_songs')) || DEFAULT_SONGS,
+      favorites: JSON.parse(localStorage.getItem('erase_favorites')) || ['song-1', 'song-3'],
+      currentSong: null,
+      isPlaying: false,
+      queue: [],
+      queueIndex: 0,
+      isShuffle: false,
+      theme: localStorage.getItem('erase_theme') || 'dark',
+      currentView: 'home',
+      activeSectionId: null
+    };
+
+    /* Temp values for current Upload Modal session */
+    let uploadTempAudioData = null;
+    let uploadTempCoverData = null;
+    let uploadTempDuration = 0;
+
+    /* ==========================================================================
+       2. WEB AUDIO SYNTHESIZER ENGINE & HTML5 AUDIO ENGINE
+       ========================================================================== */
+    class AudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.audioElement = new Audio();
+        this.isPlayingSynth = false;
+        this.synthTimer = null;
+        this.analyser = null;
+        this.dataArray = null;
+
+        // Sync HTML5 Audio events
+        this.audioElement.addEventListener('ended', () => playNextSong());
+        this.audioElement.addEventListener('timeupdate', () => updateProgressUI());
+      }
+
+      initCtx() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+          this.analyser = this.ctx.createAnalyser();
+          this.analyser.fftSize = 64;
+          this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playTrack(song) {
+        this.initCtx();
+        this.stop();
+
+        if (song.audioUrl) {
+          // Play user uploaded audio file (DataURL or BlobURL)
+          this.audioElement.src = song.audioUrl;
+          this.audioElement.play().catch(e => showToast('خطأ في تشغيل الملف الصوتي المرفوع'));
+          this.isPlayingSynth = false;
+        } else {
+          // Play Procedural Web Audio Synth Tone Soundscape for Demo songs
+          this.isPlayingSynth = true;
+          this.playProceduralSynth(song);
+        }
+      }
+
+      playProceduralSynth(song) {
+        if (!this.ctx) return;
+        const baseFreq = song.synthFreq || 261.63;
+        const scaleType = song.synthScale || 'chill';
+        
+        const intervals = scaleType === 'bayati' ? [0, 1.5, 3.5, 5, 7] : [0, 3, 5, 7, 10];
+        let step = 0;
+
+        const playNote = () => {
+          if (!this.isPlayingSynth) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          const noteFreq = baseFreq * Math.pow(2, (intervals[step % intervals.length]) / 12);
+          osc.type = scaleType === 'bayati' ? 'triangle' : 'sine';
+          osc.frequency.setValueAtTime(noteFreq, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1.2);
+
+          osc.connect(gain);
+          if (this.analyser) gain.connect(this.analyser);
+          gain.connect(this.ctx.destination);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + 1.2);
+
+          step++;
+        };
+
+        playNote();
+        this.synthTimer = setInterval(playNote, 600);
+      }
+
+      pause() {
+        if (this.isPlayingSynth) {
+          this.isPlayingSynth = false;
+          clearInterval(this.synthTimer);
+        }
+        this.audioElement.pause();
+      }
+
+      resume() {
+        if (state.currentSong && state.currentSong.audioUrl) {
+          this.audioElement.play();
+        } else if (state.currentSong) {
+          this.isPlayingSynth = true;
+          this.playProceduralSynth(state.currentSong);
+        }
+      }
+
+      stop() {
+        this.isPlayingSynth = false;
+        if (this.synthTimer) clearInterval(this.synthTimer);
+        this.audioElement.pause();
+        this.audioElement.currentTime = 0;
+      }
+
+      setVolume(val) {
+        this.audioElement.volume = val;
+      }
+
+      seek(percent) {
+        if (this.audioElement.duration) {
+          this.audioElement.currentTime = (percent / 100) * this.audioElement.duration;
+        }
+      }
+    }
+
+    const audioEngine = new AudioEngine();
+
+    /* ==========================================================================
+       3. NAVIGATION & VIEW RENDERER
+       ========================================================================== */
+    function navigateTo(viewId, paramId = null) {
+      state.currentView = viewId;
+      if (paramId) state.activeSectionId = paramId;
+
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('bg-white/10', 'text-white'));
+      const activeNav = document.getElementById(`nav-${viewId}`);
+      if (activeNav) activeNav.classList.add('bg-white/10', 'text-white');
+
+      document.querySelectorAll('.mob-btn').forEach(btn => btn.classList.remove('text-[#D8FF3E]', 'scale-105'));
+      const activeMobNav = document.getElementById(`mob-${viewId}`);
+      if (activeMobNav) activeMobNav.classList.add('text-[#D8FF3E]', 'scale-105');
+
+      document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+      
+      if (viewId === 'section-detail') {
+        renderSectionDetailView(paramId);
+        document.getElementById('view-section-detail').classList.add('active');
+      } else {
+        const targetView = document.getElementById(`view-${viewId}`);
+        if (targetView) targetView.classList.add('active');
+      }
+
+      renderAllViews();
+    }
+
+    function renderAllViews() {
+      renderSidebarSections();
+      renderHomeSections();
+      renderSectionsPage();
+      renderHomeTrendingSongs();
+      renderLibrarySongs();
+      renderFavorites();
+      renderSectionSelectOptions();
+    }
+
+    /* ==========================================================================
+       4. DYNAMIC SECTIONS RENDERERS
+       ========================================================================== */
+    function renderSidebarSections() {
+      const container = document.getElementById('sidebar-sections-list');
+      container.innerHTML = state.sections.map(sec => `
+        <button onclick="navigateTo('section-detail', '${sec.id}')" class="w-full text-right px-3 py-2 rounded-lg text-xs font-semibold text-neutral-400 hover:text-white hover:bg-white/5 truncate flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-[#D8FF3E]"></span>
+          <span class="truncate">${sec.name}</span>
+        </button>
+      `).join('');
+    }
+
+    function renderHomeSections() {
+      const container = document.getElementById('home-sections-grid');
+      container.innerHTML = state.sections.map(sec => `
+        <div onclick="navigateTo('section-detail', '${sec.id}')" class="group relative rounded-2xl overflow-hidden glass-panel border border-white/5 p-3 cursor-pointer hover:border-[#D8FF3E]/50 transition duration-300">
+          <div class="w-full h-32 rounded-xl overflow-hidden mb-3 relative">
+            <img src="${sec.cover}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition"></div>
+            <div class="absolute bottom-2 left-2 w-8 h-8 rounded-full bg-[#D8FF3E] text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 shadow-lg">
+              ▶
+            </div>
+          </div>
+          <h4 class="font-bold text-sm text-white truncate font-cairo">${sec.name}</h4>
+          <p class="text-[11px] text-neutral-400 truncate mt-0.5">${sec.desc || 'قسم خاص'}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderSectionsPage() {
+      const container = document.getElementById('all-sections-page-grid');
+      if (!container) return;
+
+      if (state.sections.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full text-center py-12 glass-panel rounded-2xl p-6">
+            <p class="text-sm text-neutral-400 mb-4">لا توجد أقسام، أنشئ قسمك الأول الآن!</p>
+            <button onclick="openModal('create-section-modal')" class="bg-[#D8FF3E] text-black font-bold text-xs py-2.5 px-6 rounded-full">
+              + إنشاء قسم جديد
+            </button>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = state.sections.map(sec => {
+        const count = state.songs.filter(s => s.sectionId === sec.id).length;
+        return `
+          <div class="group relative rounded-2xl overflow-hidden glass-panel border border-white/10 p-4 transition duration-300 hover:border-[#D8FF3E]/50 hover:-translate-y-1 shadow-xl flex flex-col justify-between">
+            <div class="relative w-full h-40 rounded-xl overflow-hidden mb-4 cursor-pointer" onclick="navigateTo('section-detail', '${sec.id}')">
+              <img src="${sec.cover}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <span class="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-[10px] font-bold text-[#D8FF3E] px-2.5 py-1 rounded-full border border-white/10">
+                ${count} أغنية
+              </span>
+              <button onclick="event.stopPropagation(); playSectionSongs('${sec.id}')" class="absolute bottom-3 left-3 w-10 h-10 rounded-full bg-[#D8FF3E] text-black flex items-center justify-center opacity-90 group-hover:opacity-100 group-hover:scale-110 transition shadow-lg">
+                ▶
+              </button>
+            </div>
+            <div class="space-y-1.5 cursor-pointer" onclick="navigateTo('section-detail', '${sec.id}')">
+              <h4 class="font-bold text-base text-white truncate font-cairo">${sec.name}</h4>
+              <p class="text-xs text-neutral-400 line-clamp-2">${sec.desc || 'قسم موسيقي خاص'}</p>
+            </div>
+            <div class="pt-4 mt-2 border-t border-white/5 flex items-center justify-between text-xs">
+              <button onclick="navigateTo('section-detail', '${sec.id}')" class="text-[#D8FF3E] font-bold hover:underline">
+                دخول للقسم ←
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderHomeTrendingSongs() {
+      const container = document.getElementById('home-trending-grid');
+      container.innerHTML = state.songs.slice(0, 6).map(song => renderSongCardHTML(song)).join('');
+    }
+
+    function renderLibrarySongs() {
+      const container = document.getElementById('library-songs-list');
+      container.innerHTML = state.songs.map(song => renderSongCardHTML(song)).join('');
+    }
+
+    function renderFavorites() {
+      const container = document.getElementById('favorites-list');
+      const favSongs = state.songs.filter(s => state.favorites.includes(s.id));
+      document.getElementById('fav-count-text').innerText = `${favSongs.length} أغنية مفضلة`;
+
+      if (favSongs.length === 0) {
+        container.innerHTML = `<p class="text-xs text-neutral-400 text-center py-8">لم تقم بإضافة أي أغنية للمفضلة بعد</p>`;
+        return;
+      }
+
+      container.innerHTML = favSongs.map(song => renderSongCardHTML(song)).join('');
+    }
+
+    function renderSectionDetailView(secId) {
+      const sec = state.sections.find(s => s.id === secId);
+      if (!sec) return;
+
+      document.getElementById('section-title-text').innerText = sec.name;
+      document.getElementById('section-desc-text').innerText = sec.desc || 'قسم خاص بك';
+      document.getElementById('section-cover-img').src = sec.cover;
+      document.getElementById('section-bg-layer').style.backgroundImage = `url('${sec.bg || sec.cover}')`;
+
+      const btnPlay = document.getElementById('btn-play-section');
+      btnPlay.onclick = () => playSectionSongs(sec.id);
+
+      const secSongs = state.songs.filter(s => s.sectionId === sec.id);
+      const songsContainer = document.getElementById('section-songs-list');
+      
+      if (secSongs.length === 0) {
+        songsContainer.innerHTML = `<p class="text-xs text-neutral-400 text-center py-6">لا توجد أغاني مضافة لهذا القسم حتى الآن</p>`;
+      } else {
+        songsContainer.innerHTML = secSongs.map(song => renderSongCardHTML(song)).join('');
+      }
+    }
+
+    function renderSongCardHTML(song) {
+      const isFav = state.favorites.includes(song.id);
+      return `
+        <div class="flex items-center justify-between p-3 rounded-xl glass-panel hover:bg-white/10 transition group cursor-pointer border border-white/5">
+          <div class="flex items-center gap-3 min-w-0" onclick="playSong('${song.id}')">
+            <img src="${song.cover}" class="w-10 h-10 rounded-lg object-cover shrink-0">
+            <div class="min-w-0">
+              <h5 class="text-xs font-bold text-white truncate">${song.title}</h5>
+              <p class="text-[10px] text-neutral-400 truncate">${song.artist} ${song.album ? '• ' + song.album : ''}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="toggleFavorite('${song.id}')" class="p-2 text-neutral-400 hover:text-rose-500 transition">
+              <svg class="w-4 h-4 ${isFav ? 'text-rose-500 fill-current' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            </button>
+            <button onclick="playSong('${song.id}')" class="w-8 h-8 rounded-full bg-[#D8FF3E]/20 text-[#D8FF3E] flex items-center justify-center group-hover:bg-[#D8FF3E] group-hover:text-black transition">
+              ▶
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ==========================================================================
+       5. PLAYER CONTROLLER & QUEUE MANAGEMENT
+       ========================================================================== */
+    function playSong(songId) {
+      const song = state.songs.find(s => s.id === songId);
+      if (!song) return;
+
+      state.currentSong = song;
+      state.isPlaying = true;
+
+      audioEngine.playTrack(song);
+      updatePlayerUI();
+      showToast(`جاري تشغيل: ${song.title}`);
+    }
+
+    function togglePlayPause() {
+      if (!state.currentSong && state.songs.length > 0) {
+        playSong(state.songs[0].id);
+        return;
+      }
+
+      state.isPlaying = !state.isPlaying;
+      if (state.isPlaying) {
+        audioEngine.resume();
+      } else {
+        audioEngine.pause();
+      }
+      updatePlayerUI();
+    }
+
+    function playNextSong() {
+      if (state.songs.length === 0) return;
+      let nextIndex = state.songs.findIndex(s => s.id === state.currentSong?.id) + 1;
+      if (nextIndex >= state.songs.length) nextIndex = 0;
+      playSong(state.songs[nextIndex].id);
+    }
+
+    function playPrevSong() {
+      if (state.songs.length === 0) return;
+      let prevIndex = state.songs.findIndex(s => s.id === state.currentSong?.id) - 1;
+      if (prevIndex < 0) prevIndex = state.songs.length - 1;
+      playSong(state.songs[prevIndex].id);
+    }
+
+    function playDemoQueue() {
+      if (state.songs.length > 0) playSong(state.songs[0].id);
+    }
+
+    function playFavoritesQueue() {
+      const favs = state.songs.filter(s => state.favorites.includes(s.id));
+      if (favs.length > 0) playSong(favs[0].id);
+    }
+
+    function playSectionSongs(secId) {
+      const secSongs = state.songs.filter(s => s.sectionId === secId);
+      if (secSongs.length > 0) playSong(secSongs[0].id);
+    }
+
+    function updatePlayerUI() {
+      if (!state.currentSong) return;
+      const song = state.currentSong;
+
+      document.getElementById('player-title').innerText = song.title;
+      document.getElementById('player-artist').innerText = `${song.artist} ${song.album ? '• ' + song.album : ''}`;
+      document.getElementById('player-thumb').src = song.cover;
+
+      const playIcon = document.getElementById('icon-play');
+      const pauseIcon = document.getElementById('icon-pause');
+      const fsPlayIcon = document.getElementById('fs-icon-play');
+      const fsPauseIcon = document.getElementById('fs-icon-pause');
+
+      if (state.isPlaying) {
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+        fsPlayIcon.classList.add('hidden');
+        fsPauseIcon.classList.remove('hidden');
+      } else {
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+        fsPlayIcon.classList.remove('hidden');
+        fsPauseIcon.classList.add('hidden');
+      }
+
+      document.getElementById('fs-cover-img').src = song.cover;
+      document.getElementById('fs-song-title').innerText = song.title;
+      document.getElementById('fs-song-artist').innerText = `${song.artist} ${song.album ? '• ' + song.album : ''}`;
+      document.getElementById('fs-bg-artwork').style.backgroundImage = `url('${song.cover}')`;
+    }
+
+    function updateProgressUI() {
+      const audio = audioEngine.audioElement;
+      if (!audio.duration) return;
+      
+      const percent = (audio.currentTime / audio.duration) * 100;
+      document.getElementById('seek-bar').value = percent;
+      document.getElementById('fs-seek-bar').value = percent;
+
+      document.getElementById('time-current').innerText = formatTime(audio.currentTime);
+      document.getElementById('time-duration').innerText = formatTime(audio.duration);
+      document.getElementById('fs-time-current').innerText = formatTime(audio.currentTime);
+      document.getElementById('fs-time-duration').innerText = formatTime(audio.duration);
+    }
+
+    function handleSeek(val) {
+      audioEngine.seek(val);
+    }
+
+    function setVolume(val) {
+      audioEngine.setVolume(val);
+    }
+
+    function toggleMute() {
+      const volBar = document.getElementById('volume-bar');
+      if (volBar.value > 0) {
+        volBar.value = 0;
+        audioEngine.setVolume(0);
+      } else {
+        volBar.value = 0.8;
+        audioEngine.setVolume(0.8);
+      }
+    }
+
+    function formatTime(secs) {
+      if (isNaN(secs)) return '0:00';
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    /* ==========================================================================
+       6. UPLOAD SONG SYSTEM (DRAG & DROP, PREVIEW, BASE64 / LOCAL STORAGE)
+       ========================================================================== */
+    function openUploadModal(presetSectionId = null) {
+      openModal('upload-song-modal');
+      renderSectionSelectOptions();
+      
+      if (presetSectionId) {
+        document.getElementById('song-section-select').value = presetSectionId;
+      }
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('audio-drop-zone').classList.add('drop-active');
+    }
+
+    function handleDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('audio-drop-zone').classList.remove('drop-active');
+    }
+
+    function handleAudioDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.getElementById('audio-drop-zone').classList.remove('drop-active');
+      
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        processSelectedAudioFile(files[0]);
+      }
+    }
+
+    function onAudioInputChanged(input) {
+      if (input.files && input.files[0]) {
+        processSelectedAudioFile(input.files[0]);
+      }
+    }
+
+    function processSelectedAudioFile(file) {
+      if (!file.type.startsWith('audio/') && !file.name.match(/\.(mp3|wav|ogg|m4a)$/i)) {
+        showToast('يرجى اختيار ملف صوتي صالح (.mp3, .wav, .ogg, .m4a)');
+        return;
+      }
+
+      // Auto-extract song name from file name
+      const cleanTitle = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+      document.getElementById('song-title-input').value = cleanTitle;
+      document.getElementById('audio-file-text').innerText = `تم اختيار: ${file.name}`;
+
+      // Convert Audio to DataURL (Base64) or Blob Object URL
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        uploadTempAudioData = e.target.result;
+        
+        // Audio Preview setup inside modal
+        const previewAudio = document.getElementById('modal-audio-preview');
+        previewAudio.src = uploadTempAudioData;
+        document.getElementById('modal-audio-preview-container').classList.remove('hidden');
+
+        previewAudio.onloadedmetadata = function() {
+          uploadTempDuration = Math.round(previewAudio.duration);
+          document.getElementById('preview-audio-duration').innerText = formatTime(uploadTempDuration);
+        };
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function previewSongCover(input) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          uploadTempCoverData = e.target.result;
+          const img = document.getElementById('song-cover-preview');
+          img.src = uploadTempCoverData;
+          img.classList.remove('hidden');
+          document.getElementById('song-cover-text').innerText = `غلاف: ${file.name}`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handleUploadSong(e) {
+      e.preventDefault();
+
+      if (!uploadTempAudioData) {
+        showToast('يرجى اختيار ملف صوتي أولاً');
+        return;
+      }
+
+      const title = document.getElementById('song-title-input').value.trim();
+      const artist = document.getElementById('song-artist-input').value.trim();
+      const album = document.getElementById('song-album-input').value.trim();
+      const sectionId = document.getElementById('song-section-select').value;
+
+      const newSong = {
+        id: 'song-' + Date.now(),
+        title: title,
+        artist: artist,
+        album: album || 'أغنية منفردة',
+        sectionId: sectionId,
+        cover: uploadTempCoverData || 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=400',
+        audioUrl: uploadTempAudioData,
+        duration: uploadTempDuration || 180
+      };
+
+      try {
+        state.songs.unshift(newSong);
+        localStorage.setItem('erase_songs', JSON.stringify(state.songs));
+      } catch (err) {
+        console.warn('LocalStorage limit reached, storing in memory session', err);
+        showToast('ملاحظة: تم حفظ الأغنية في الجلسة الحالية (حجم الملف كبير)');
+      }
+
+      closeModal('upload-song-modal');
+      
+      // Reset Modal Upload Form State
+      document.getElementById('upload-song-form').reset();
+      document.getElementById('modal-audio-preview-container').classList.add('hidden');
+      document.getElementById('song-cover-preview').classList.add('hidden');
+      document.getElementById('audio-file-text').innerText = 'اسحب وسجل ملف الصوت هنا أو اضغط للاختيار';
+      uploadTempAudioData = null;
+      uploadTempCoverData = null;
+
+      showToast(`✓ تم رفع وتخزين الأغنية بنجاح: ${title}`);
+      renderAllViews();
+      
+      // Play newly uploaded song automatically
+      playSong(newSong.id);
+    }
+
+    /* ==========================================================================
+       7. FAVORITES & SECTION MANAGEMENT (LocalStorage Sync)
+       ========================================================================== */
+    function toggleFavorite(songId) {
+      if (state.favorites.includes(songId)) {
+        state.favorites = state.favorites.filter(id => id !== songId);
+        showToast('تمت إزالة الأغنية من المفضلة');
+      } else {
+        state.favorites.push(songId);
+        showToast('✓ تمت إضافة الأغنية للمفضلة');
+      }
+      localStorage.setItem('erase_favorites', JSON.stringify(state.favorites));
+      renderAllViews();
+    }
+
+    function toggleFavoriteCurrent() {
+      if (state.currentSong) toggleFavorite(state.currentSong.id);
+    }
+
+    function handleCreateSection(e) {
+      e.preventDefault();
+      const name = document.getElementById('sec-name-input').value;
+      const desc = document.getElementById('sec-desc-input').value;
+      const previewImg = document.getElementById('cover-preview').src;
+
+      const newSection = {
+        id: 'sec-' + Date.now(),
+        name: name,
+        desc: desc,
+        cover: previewImg || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600',
+        bg: previewImg || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200'
+      };
+
+      state.sections.push(newSection);
+      localStorage.setItem('erase_sections', JSON.stringify(state.sections));
+
+      closeModal('create-section-modal');
+      showToast(`✓ تم إنشاء قسم: ${name}`);
+      renderAllViews();
+      navigateTo('section-detail', newSection.id);
+    }
+
+    function deleteCurrentSection() {
+      if (!state.activeSectionId) return;
+      state.sections = state.sections.filter(s => s.id !== state.activeSectionId);
+      localStorage.setItem('erase_sections', JSON.stringify(state.sections));
+      showToast('تم حذف القسم بنجاح');
+      navigateTo('home');
+    }
+
+    function renderSectionSelectOptions() {
+      const select = document.getElementById('song-section-select');
+      select.innerHTML = '<option value="general" class="bg-neutral-900">عام (بدون قسم)</option>' +
+        state.sections.map(s => `<option value="${s.id}" class="bg-neutral-900">${s.name}</option>`).join('');
+    }
+
+    /* ==========================================================================
+       8. GLOBAL LIVE SEARCH & FILTERING
+       ========================================================================== */
+    function handleGlobalSearch(query) {
+      if (!query.trim()) {
+        renderAllViews();
+        return;
+      }
+
+      const q = query.toLowerCase();
+      const filteredSongs = state.songs.filter(s => s.title.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q));
+      const container = document.getElementById('search-results-container');
+
+      if (filteredSongs.length === 0) {
+        container.innerHTML = `<p class="text-xs text-neutral-400 text-center py-6">لم يتم العثور على نتائج مطابقة لـ "${query}"</p>`;
+      } else {
+        container.innerHTML = filteredSongs.map(song => renderSongCardHTML(song)).join('');
+      }
+
+      if (state.currentView !== 'search') navigateTo('search');
+    }
+
+    /* ==========================================================================
+       9. FULLSCREEN CINEMATIC PLAYER & VISUALIZER
+       ========================================================================== */
+    function openFullscreenPlayer() {
+      const modal = document.getElementById('fullscreen-player-modal');
+      modal.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-full');
+      updatePlayerUI();
+      startVisualizer();
+    }
+
+    function closeFullscreenPlayer() {
+      const modal = document.getElementById('fullscreen-player-modal');
+      modal.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
+    }
+
+    function startVisualizer() {
+      const canvas = document.getElementById('visualizer-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      function draw() {
+        requestAnimationFrame(draw);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (!audioEngine.analyser) return;
+        audioEngine.analyser.getByteFrequencyData(audioEngine.dataArray);
+
+        const barWidth = (canvas.width / audioEngine.dataArray.length) * 2.5;
+        let x = 0;
+
+        for (let i = 0; i < audioEngine.dataArray.length; i++) {
+          const barHeight = audioEngine.dataArray[i] * 1.5;
+          ctx.fillStyle = `rgba(216, 255, 62, ${barHeight / 300})`;
+          ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+          x += barWidth + 2;
+        }
+      }
+      draw();
+    }
+
+    /* ==========================================================================
+       10. THEME TOGGLE (Cinematic Transition)
+       ========================================================================== */
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        state.theme = 'light';
+      } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        state.theme = 'dark';
+      }
+      localStorage.setItem('erase_theme', state.theme);
+      showToast(`تم التغيير إلى النمط ${state.theme === 'dark' ? 'الداكن' : 'الفاتح'}`);
+    }
+
+    /* ==========================================================================
+       11. UTILITIES, MODALS & TOAST NOTIFICATIONS
+       ========================================================================== */
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function showToast(msg) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'glass-panel px-5 py-3 rounded-2xl text-xs font-bold text-white shadow-2xl border border-white/20 transition-all duration-500 transform translate-y-[-10px]';
+      toast.innerText = msg;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'scale-90');
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+    }
+
+    function previewImage(input, imgId, textId) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.getElementById(imgId);
+          img.src = e.target.result;
+          img.classList.remove('hidden');
+          document.getElementById(textId).innerText = `تم اختيار: ${file.name}`;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function resetAppData() {
+      localStorage.clear();
+      location.reload();
+    }
+
+    /* ==========================================================================
+       12. APP BOOTSTRAP (On Load)
+       ========================================================================== */
+    window.onload = function() {
+      setTimeout(() => {
+        document.getElementById('splash-screen').classList.add('hidden-splash');
+      }, 1000);
+
+      document.documentElement.className = state.theme;
+      renderAllViews();
+    };
+  </script>
+</body>
+</html>
